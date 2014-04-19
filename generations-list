@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [ - = "$1" ]; then
+    in=/dev/stdin
+else
+    in=/dev/null
+fi
+
+cat "$in" \
+    | xmllint --format "$1" \
+    | awk -F'<|><!\\[CDATA\\[|]]></|>' '$2 == "chanteur" {c = 1; print $3} $2 == "chanson" && c {c = 0; print $3}' \
+    | sed 'N; s/\n/ - /'
