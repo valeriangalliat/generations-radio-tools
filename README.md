@@ -34,7 +34,7 @@ Stream the output to format it as Markdown (used to generate `generations-dump.m
 
 ```sh
 title='Generations Radios'
-echo "$title" && echo "$title" | sed 's/./-/g' && echo
+echo "$title" && echo "$title" | sed 's/./=/g' && echo
 
 generations-dump | xargs -d'\n' -L3 sh -c \
     'echo "$0" && echo "$0" | sed "s/./-/g" && echo && echo "- Stream: $1" && echo "- Songs: $2" && echo'
