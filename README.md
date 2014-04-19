@@ -57,7 +57,7 @@ List the titles from an XML file retrieved from the website API.
 Download the current funk titles and list XML data:
 
 ```sh
-curl -s 'http://generations.fr/winradio/prog5.xml' | generations-list -
+curl -s 'http://generations.fr/winradio/prog5.xml' | generations-list
 ```
 
 Same from a file:
