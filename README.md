@@ -49,7 +49,6 @@ List the titles from an XML file retrieved from the website API.
 
 ### Dependencies
 
-- `xmllint`
 - `sed`, `awk`
 
 ### Examples

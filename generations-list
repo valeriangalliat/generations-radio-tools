@@ -9,6 +9,5 @@ else
 fi
 
 cat "$in" \
-    | xmllint --format "$file" \
     | awk -F'<|><!\\[CDATA\\[|]]></|>' '$2 == "chanteur" {c = 1; print $3} $2 == "chanson" && c {c = 0; print $3}' \
     | sed 'N; s/\n/ - /'
