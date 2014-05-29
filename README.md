@@ -78,6 +78,8 @@ this file.
 The default database file will be named `db` in the current directory,
 and the default time is 300 seconds (5 minutes).
 
+I generated the `generations-funk.txt` file with this script.
+
 ### Examples
 
 ```sh
