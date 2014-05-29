@@ -45,11 +45,12 @@ List
 
 ### Description
 
-List the titles from an XML file retrieved from the website API.
+List the titles from an XML file read from standard input, retrieved from
+the website API.
 
 ### Dependencies
 
-- `sed`, `awk`
+- `awk`, `sed`
 
 ### Examples
 
@@ -57,10 +58,4 @@ Download the current funk titles and list XML data:
 
 ```sh
 curl -s 'http://generations.fr/winradio/prog5.xml' | generations-list
-```
-
-Same from a file:
-
-```sh
-generations-list prog5.xml
 ```

@@ -17,17 +17,7 @@ $2 == "chanson" && c {
 '
 
 main() {
-    if ! [ "${1:+1}" ]; then
-        in='/dev/stdin'
-        file='-'
-    else
-        in='/dev/null'
-        file="$1"
-    fi
-
-    cat "$in" \
-        | awk "$AWK_SCRIPT" \
-        | sed 'N; s/\n/ - /'
+    awk "$AWK_SCRIPT" | sed 'N; s/\n/ - /'
 }
 
 main "$@"
