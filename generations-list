@@ -1,13 +1,33 @@
 #!/bin/sh -e
 
-if ! [ "${1:+1}" ]; then
-    in='/dev/stdin'
-    file='-'
-else
-    in='/dev/null'
-    file="$1"
-fi
+readonly AWK_SCRIPT='
+BEGIN {
+    FS="<|><!\\[CDATA\\[|]]></|>"
+}
 
-cat "$in" \
-    | awk -F'<|><!\\[CDATA\\[|]]></|>' '$2 == "chanteur" {c = 1; print $3} $2 == "chanson" && c {c = 0; print $3}' \
-    | sed 'N; s/\n/ - /'
+$2 == "chanteur" {
+    c = 1;
+    print $3
+}
+
+$2 == "chanson" && c {
+    c = 0;
+    print $3
+}
+'
+
+main() {
+    if ! [ "${1:+1}" ]; then
+        in='/dev/stdin'
+        file='-'
+    else
+        in='/dev/null'
+        file="$1"
+    fi
+
+    cat "$in" \
+        | awk "$AWK_SCRIPT" \
+        | sed 'N; s/\n/ - /'
+}
+
+main "$@"

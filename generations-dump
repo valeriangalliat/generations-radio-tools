@@ -1,19 +1,33 @@
 #!/bin/sh -e
 
+readonly GENERATIONS_URL='http://generations.fr/'
+
 # Radio anchor xpath
-RAX='//a[@rel="open_player"][@class="webradio"]'
+readonly RAX='//a[@rel="open_player"][@class="webradio"]'
 
 # XML base url
-XBU='http://generations.fr/winradio/prog'
+readonly XBU='http://generations.fr/winradio/prog'
 
 # Stream input value xpath expression
-SIX='string(//input[@id="flux"]/@value)'
+readonly SIX='string(//input[@id="flux"]/@value)'
 
-curl -s http://generations.fr/ \
-    | xmllint --html --xpath "$RAX/@href | $RAX/text()" - 2> /dev/null \
-    | sed 's/ href="/\n/g' \
-    | sed 's/"/\n/; 1d; $a\' \
-    | awk 'NR % 2 {print "'"$XBU"'" (NR + 1) / 2 ".xml"} 1' \
-    | xargs -d'\n' -L3 sh -c \
-        'echo "$3" && curl -s "$2" | xmllint --html --xpath "$0" - 2> /dev/null && echo && echo "$1"' \
-        "$SIX"
+readonly SHELL_SCRIPT='
+echo "$3"
+
+curl -s "$2" \
+    | xmllint --html --xpath "$0" - 2> /dev/null
+
+echo
+echo "$1"
+'
+
+main() {
+    curl -s "$GENERATIONS_URL" \
+        | xmllint --html --xpath "$RAX/@href | $RAX/text()" - 2> /dev/null \
+        | sed 's/ href="/\n/g' \
+        | sed 's/"/\n/; 1d; $a\' \
+        | awk 'NR % 2 {print "'"$XBU"'" (NR + 1) / 2 ".xml"} 1' \
+        | xargs -d'\n' -L3 sh -c "$SHELL_SCRIPT" "$SIX"
+}
+
+main "$@"
