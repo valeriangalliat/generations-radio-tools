@@ -77,3 +77,12 @@ this file.
 
 The default database file will be named `db` in the current directory,
 and the default time is 300 seconds (5 minutes).
+
+### Examples
+
+```sh
+readonly FUNK_URL='http://generations.fr/winradio/prog5.xml'
+
+generations-dump-all "$FUNK_URL" # Fill `db` every 5 minutes
+generations-dump-all -d mydb -t 600 "$FUNK_URL" # Fill `mydb` every 10 minutes
+```
