@@ -1,0 +1,60 @@
+#!/bin/sh -e
+
+DB=db
+TIME=300
+URL=
+
+lines() {
+    wc -l | awk '{print $1}'
+}
+
+append() {
+    # Append current titles to file
+    curl -s "$URL" \
+        | generations-list \
+        >> "$DB"
+
+    # Remove duplicate lines
+    sort "$DB" | uniq > "$DB.tmp"
+    mv "$DB.tmp" "$DB"
+}
+
+step() {
+    date # Log start date
+
+    blines=$(lines < "$DB") # Lines before
+
+    append
+
+    alines=$(lines < "$DB") # Lines after
+    nlines=$(expr "$alines" - "$blines") # New lines
+
+    printf '  '; date # Log end date
+    printf '  %s lines (%s new)' "$alines" "$nlines"
+    echo
+}
+
+main() {
+    while [ $# -gt 1 ]; do
+        case "$1" in
+            -d) shift; DB="$1"; shift ;;
+            -t) shift; TIME="$1"; shift ;;
+            *) shift;
+        esac
+    done
+
+    URL="$1"; shift
+
+    readonly DB
+    readonly TIME
+    readonly URL
+
+    touch "$DB"
+
+    while :; do
+        step || true # Do not fail
+        sleep "$TIME"
+    done
+}
+
+main "$@"
