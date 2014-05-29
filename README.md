@@ -59,3 +59,21 @@ Download the current funk titles and list XML data:
 ```sh
 curl -s 'http://generations.fr/winradio/prog5.xml' | generations-list
 ```
+
+Dump All
+--------
+
+### Synopsis
+
+```
+generations-dump-all [-d DB] [-t TIME] URL
+```
+
+### Description
+
+Infinite loop that will fetch `URL` every `TIME` seconds, append songs
+using `generations-list` into `DB`, and remove duplicate entries from
+this file.
+
+The default database file will be named `db` in the current directory,
+and the default time is 300 seconds (5 minutes).
