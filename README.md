@@ -1,10 +1,10 @@
-Generations Radio Tools
-=======================
+generations.fr tools
+====================
 
-Tools for [generations.fr](http://generations.fr/) radio.
+> Tools for [generations.fr](http://generations.fr/) radio.
 
-Dump
-----
+generations-dump
+----------------
 
 ### Description
 
@@ -18,11 +18,10 @@ webradio:
 
 ### Dependencies
 
-- `curl`
-- `xmllint`
-- `sed`, `awk`, `xargs`
+- curl
+- xmllint
 
-### Examples
+### Example
 
 Simple run to get raw output:
 
@@ -30,7 +29,8 @@ Simple run to get raw output:
 generations-dump
 ```
 
-Stream the output to format it as Markdown (used to generate `generations-dump.md`):
+Stream the output to format it as Markdown (used to generate
+`generations-dump.md`):
 
 ```sh
 title='Generations Radios'
@@ -40,19 +40,15 @@ generations-dump | xargs -d'\n' -L3 sh -c \
     'echo "$0" && echo "$0" | sed "s/./-/g" && echo && echo "- Stream: $1" && echo "- Songs: $2" && echo'
 ```
 
-List
-----
+generations-list
+----------------
 
 ### Description
 
 List the titles from an XML file read from standard input, retrieved from
 the website API.
 
-### Dependencies
-
-- `awk`, `sed`
-
-### Examples
+### Example
 
 Download the current funk titles and list XML data:
 
@@ -60,8 +56,8 @@ Download the current funk titles and list XML data:
 curl -s 'http://generations.fr/winradio/prog5.xml' | generations-list
 ```
 
-Dump All
---------
+generations-dump-all
+--------------------
 
 ### Synopsis
 
@@ -80,7 +76,7 @@ and the default time is 300 seconds (5 minutes).
 
 I generated the `generations-funk.txt` file with this script.
 
-### Examples
+### Example
 
 ```sh
 readonly FUNK_URL='http://generations.fr/winradio/prog5.xml'
